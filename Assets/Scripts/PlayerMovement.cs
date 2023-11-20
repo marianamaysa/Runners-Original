@@ -33,6 +33,12 @@ public class PlayerMovement : NetworkBehaviour
 
     private float slideSpeed = 6f;
     private bool isSliding = false;
+    private bool wallRight = false;
+    private RaycastHit rightWallHit;
+    [SerializeField] LayerMask whatIsWall;
+    [SerializeField] float wallCheckDistance;
+    [SerializeField] Transform orientation;
+
 
     void Start()
     {
@@ -53,7 +59,7 @@ public class PlayerMovement : NetworkBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                StartSliding();
+                StartSlide();
             }
         }
         else
@@ -97,21 +103,67 @@ public class PlayerMovement : NetworkBehaviour
         
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
 
-        if(desiredLane == 0)
+        if(isNearWall() && wallRight && desiredLane == 2)
         {
             targetPosition += Vector3.left * laneDistance;
         }
-        else if(desiredLane == 1)
-        {
-            
-        }
-        else if (desiredLane == 2)
+        else if(isNearWall() && !wallRight && desiredLane == 0)
         {
             targetPosition += Vector3.right * laneDistance;
         }
+        else
+        {
+            if (desiredLane == 0)
+            {
+                targetPosition += Vector3.left * laneDistance;
+            }
+            else if (desiredLane == 1)
+            {
+
+            }
+            else if (desiredLane == 2)
+            {
+                targetPosition += Vector3.right * laneDistance;
+            }
+        }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, 70 * Time.deltaTime);
-        
+
+        //detectar input do wallrunning
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                StartWallRun(-1); //esquerda
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                StartWallRun(1); //direita
+            }
+        }       
+    }
+
+    void StartWallRun(int direction)
+    {
+        if (isNearWall())
+        {
+            Vector3 wallRunDirection = orientation.right * direction;
+            controller.Move(wallRunDirection * slideSpeed * Time.deltaTime);
+        }
+    }
+
+    bool isNearWall()
+    {
+        RaycastHit wallHit;
+
+        //verificar se tem parede na direção do personagem
+        if (Physics.Raycast(transform.position, orientation.forward, out wallHit, wallCheckDistance, whatIsWall))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void Move(Vector3 direction)
@@ -121,6 +173,47 @@ public class PlayerMovement : NetworkBehaviour
 
     void Jump()
     {
+        jumpVelocity = jumpHeight;
+    }
 
+    void ApplyGravity()
+    {
+        jumpVelocity -= gravity;
+    }
+    
+    void StartSlide()
+    {
+        StartCoroutine(SlideRoutine());
+    }
+
+    IEnumerator SlideRoutine()
+    {
+        isSliding = true;
+        yield return new WaitForSeconds(1f);
+        isSliding = false;
+    }
+
+    void Slide()
+    {
+        Vector3 slideDirection = Vector3.zero;
+
+        //verificar se tem colisão com as paredes
+
+        if (controller.isGrounded && (controller.collisionFlags & CollisionFlags.Sides) != 0)
+        {
+            slideDirection = isCollidingWithRightWall() ? Vector3.left : Vector3.right;
+        }
+
+        controller.Move(slideDirection * slideSpeed * Time.deltaTime);
+    }
+
+    bool isCollidingWithRightWall()
+    {
+        // Implemente a lógica para verificar se o personagem está colidindo com a parede esquerda
+        wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallHit, wallCheckDistance, whatIsWall);
+
+        return true;
+
+        // Use Raycast ou outras técnicas de detecção de colisão
     }
 }

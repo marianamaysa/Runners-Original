@@ -120,10 +120,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personalCamera: {fileID: 0}
-  laneDistance: 5
+  laneDistance: 4
   playerSpeed: 0
   jumpHeight: 15
   gravity: 0.1
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 64
+  wallCheckDistance: -1
+  orientation: {fileID: 5012192283393637561}
 --- !u!114 &8696135979510410475
 MonoBehaviour:
   m_ObjectHideFlags: 0
