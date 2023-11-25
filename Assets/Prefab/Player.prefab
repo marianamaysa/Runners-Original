@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -883447921582063282}
   - component: {fileID: 8696135979510410475}
   - component: {fileID: 4568857273691248351}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 64
-  wallCheckDistance: -1
+  wallCheckDistance: 1
   orientation: {fileID: 5012192283393637561}
 --- !u!114 &8696135979510410475
 MonoBehaviour:
