@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -883447921582063282}
   - component: {fileID: 8696135979510410475}
   - component: {fileID: 4568857273691248351}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -120,15 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personalCamera: {fileID: 0}
-  laneDistance: 4
-  playerSpeed: 0
+  playerSpeed: 50
   jumpHeight: 15
   gravity: 0.1
-  whatIsWall:
-    serializedVersion: 2
-    m_Bits: 64
-  wallCheckDistance: 1
-  orientation: {fileID: 5012192283393637561}
 --- !u!114 &8696135979510410475
 MonoBehaviour:
   m_ObjectHideFlags: 0

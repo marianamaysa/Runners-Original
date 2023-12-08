@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/runnersScene.unity
+    path: Assets/Scenes/runnersScene.unity
     guid: 69589011e50032d4b94afe8ccb8ade69
+  - enabled: 1
+    path: Assets/Scenes/Victory.unity
+    guid: 9e8967724198e94428134541cb62a627
+  - enabled: 1
+    path: Assets/Scenes/Defeat.unity
+    guid: c4ff453b577c405439e5f9071dee751a
   m_configObjects: {}

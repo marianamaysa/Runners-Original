@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Chegada
+  - OBS
   layers:
   - Default
   - TransparentFX
@@ -11,11 +13,11 @@ TagManager:
   - 
   - Water
   - UI
-  - whatIsWall
   - 
   - 
   - 
-  - Game
+  - 
+  - 
   - 
   - 
   - 
@@ -40,7 +42,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: whatIsWall
-    uniqueID: 3726081755
     locked: 0
