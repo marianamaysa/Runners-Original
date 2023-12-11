@@ -32,7 +32,7 @@ public class Final2 : MonoBehaviour
         if (chegouatrasado == true)
         {
             Debug.Log("Defeat");
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(4);
             this.GetComponent<Final2>().enabled = false;
         }
 
