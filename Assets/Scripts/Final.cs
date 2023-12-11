@@ -40,7 +40,7 @@ public class Final : MonoBehaviour
         if (chegou == true)
         {
             Debug.Log("Vitoria");
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(3);
             chegouatrasado = true;
             this.GetComponent <Final>().enabled = false;
         }
