@@ -17,6 +17,8 @@ public class SimpleMatchmaking : MonoBehaviour
 {
     // Codigo tirado/adaptado do canal TARODEV no YouTube
     [SerializeField] public GameObject bgMenu;
+    [SerializeField] public GameObject criarButton;
+    [SerializeField] public GameObject buscarButton;
     [SerializeField] public GameObject codeButton;
     [SerializeField] private Text codeText;
     [SerializeField] private GameObject botoes;
@@ -30,6 +32,7 @@ public class SimpleMatchmaking : MonoBehaviour
     [SerializeField] private int playerToStart = 2;
     float timer;
     private bool sceneChanged = false;
+    private bool stopScene = false; 
 
     private void Awake()
     {
@@ -39,6 +42,8 @@ public class SimpleMatchmaking : MonoBehaviour
     public async void CreateOrJoinLobby()
     {
         bgMenu.SetActive(false);
+        criarButton.SetActive(false);
+        buscarButton.SetActive(false);
         keyCodeText.SetActive(true);
         codeButton.SetActive(false);
         await Authenticate();
@@ -48,14 +53,17 @@ public class SimpleMatchmaking : MonoBehaviour
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        if (!stopScene)
         {
-            if (timer > 5 && !sceneChanged) // tenta mudar a cena a cada 5 segundos
+            timer += Time.deltaTime;
             {
-                //ActivateCanvas();
-                ChangeScene();
-                //sceneChanged = true; 
-                timer = 0f;
+                if (timer > 5 && !sceneChanged) // tenta mudar a cena a cada 5 segundos
+                {
+                    //ActivateCanvas();
+                    ChangeScene();
+                    //sceneChanged = true; 
+                    timer = 0f;
+                }
             }
         }
 
@@ -132,6 +140,7 @@ public class SimpleMatchmaking : MonoBehaviour
         playerId = AuthenticationService.Instance.PlayerId;
     }
 
+
     private async void ChangeScene()
     {
         if (connectedLobby != null && !sceneChanged)
@@ -141,16 +150,24 @@ public class SimpleMatchmaking : MonoBehaviour
 
             if (lobby.Players.Count == 2)
             {
-                // Verifica se o jogador local é o host
-                bool isHost = connectedLobby.HostId == playerId;
-
                 // Cena com nome gameplay -- mudar de acordo com seu jogo
                 NetworkManager.Singleton.SceneManager.LoadScene("runnersScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
                 sceneChanged = true;
+
+                var players = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var player in players)
+                {
+                    var playerMovement = player.GetComponent<PlayerMovement>();
+                    if (playerMovement != null)
+                    {
+                        playerMovement.IsInLobby(false);
+                    }
+                }
             }
         }
-
     }
+
+
     private void OnDestroy()
     {
         try

@@ -47,7 +47,14 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        ChangeLane();
+        if (!isInLobby)
+        {
+            ChangeLane();
+        }
+    }
+    public void IsInLobby(bool value)
+    {
+        isInLobby = value;
     }
 
     void ChangeLane()
@@ -64,7 +71,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow) && (desiredLane == -1 || desiredLane == 3))
         {
-            desiredHeight = Mathf.Min(desiredHeight + 4, 9);
+            desiredHeight = Mathf.Min(desiredHeight + 4, 10);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow) && (desiredLane == -1 || desiredLane == 3))
         {
